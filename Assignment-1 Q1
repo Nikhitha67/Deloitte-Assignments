@@ -1,14 +1,25 @@
 public class HighestSalesDay {
     public static void main(String[] args) {
-int[] sales = {600, 900, 450, 1000, 1800, 200, 1500}; 
-int maxSales = sales[0];
-int day = 0;
-for (int i = 0; i < sales.length; i++) {
-if (maxSales < sales[i] ) {
-maxSales = sales[i];
-day = i;
-}
-}
-System.out.println("Day with highest sales: " + (day + 1));
-}
+        // Array of sales figures for each day of the week
+        int[] sales = {600, 900, 450, 1000, 1800, 200, 1500}; 
+        
+        // Initialize maxSales with the first day's sales
+        int maxSales = sales[0];
+        // Variable to track the index of the day with the highest sales
+        int day = 0;
+
+        // Loop through the sales array to find the highest sales
+        for (int i = 0; i < sales.length; i++) {
+            // Check if the current day's sales are greater than maxSales
+            if (maxSales < sales[i]) {
+                // Update maxSales to the current day's sales
+                maxSales = sales[i];
+                // Update the day index to the current day
+                day = i;
+            }
+        }
+
+        // Output the day with the highest sales (adding 1 to convert index to day number)
+        System.out.println("Day with highest sales: " + (day + 1));
+    }
 }

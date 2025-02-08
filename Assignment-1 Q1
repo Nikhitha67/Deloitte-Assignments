@@ -1,0 +1,14 @@
+public class HighestSalesDay {
+    public static void main(String[] args) {
+int[] sales = {600, 900, 450, 1000, 1800, 200, 1500}; 
+int maxSales = sales[0];
+int day = 0;
+for (int i = 0; i < sales.length; i++) {
+if (maxSales < sales[i] ) {
+maxSales = sales[i];
+day = i;
+}
+}
+System.out.println("Day with highest sales: " + (day + 1));
+}
+}

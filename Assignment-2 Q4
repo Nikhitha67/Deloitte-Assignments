@@ -1,0 +1,30 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+public class DistinctDigits {
+    // Function to find distinct digits from the array of integers
+    public static ArrayList<Integer> findDistinctDigits(int[] numbers) {
+        Set<Integer> digitSet = new HashSet<>();
+        // Extract digits from each number
+        for (int number : numbers) {
+            // Convert the number to a string to extract digits
+            String numStr = String.valueOf(number);
+            for (char digitChar : numStr.toCharArray()) {
+                // Add the digit to the set
+                digitSet.add(Character.getNumericValue(digitChar));
+            }
+        }
+        // Convert the set to a list and sort it
+        ArrayList<Integer> distinctDigits = new ArrayList<>(digitSet);
+        Collections.sort(distinctDigits);
+        return distinctDigits;
+    }
+    // Main method to test the code
+    public static void main(String[] args) {
+        int[] N = {111, 222, 333, 4444, 666};
+        ArrayList<Integer> distinctDigits = findDistinctDigits(N);
+        // Print the sorted list of distinct digits
+        System.out.println(distinctDigits);
+    }
+}

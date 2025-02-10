@@ -1,23 +1,46 @@
-class InversionCount {
-    public static void main(String[] args) {
-        // Initialize an array of integers
-        int arr[] = {30, 45, 25, 60, 20};
-        // Get the length of the array
-        int n = arr.length;        
-        // Initialize a variable to count inversions
+import java.util.Arrays;
+public class MergeSortCumInversionCount {
+    public static int mergeAndCountInverse(double[] src, double[] swap, int start, int mid, int end) {
         int inversionCount = 0;
-        // Outer loop to iterate through each element in the array
-        for (int i = 0; i < n - 1; i++) {
-            // Inner loop to compare the current element with the subsequent elements
-            for (int j = i + 1; j < n; j++) {
-                // Check if the current element is greater than the compared element
-                if (arr[i] > arr[j]) {  
-                    // If true, increment the inversion count
-                    inversionCount++;
-                }
+        int leftIndex = start, rightIndex = mid + 1, current = start;
+        while (leftIndex <= mid && rightIndex <= end) {
+            if (src[leftIndex] > src[rightIndex]) { // Corrected condition
+                swap[current] = src[rightIndex];
+                inversionCount += (mid - leftIndex + 1); // Counting inversions correctly
+                rightIndex++;
+            } else {
+                swap[current] = src[leftIndex];
+                leftIndex++;
             }
-        }        
-        // Print the total number of inversions found in the array
-        System.out.println("The inversion count is " + inversionCount);
+            current++;
+        }
+        while (leftIndex <= mid) {
+            swap[current++] = src[leftIndex++];
+        }
+        while (rightIndex <= end) {
+            swap[current++] = src[rightIndex++];
+        }
+        // Copy back to original array
+        for (int i = start; i <= end; i++) {
+            src[i] = swap[i];
+        }
+        return inversionCount;
+    }
+    public static int divide(double[] arr, double[] swap, int start, int end) {
+        int inversion = 0;
+        if (start < end) {
+            int mid = start + (end - start) / 2;
+            inversion += divide(arr, swap, start, mid);
+            inversion += divide(arr, swap, mid + 1, end);
+            inversion += mergeAndCountInverse(arr, swap, start, mid, end);
+        }
+        return inversion;
+    }
+    public static void main(String[] args) {
+        double[] arr = {2.5, 9.2, 4.5, 19.5, 2.5, 56.8};
+        double[] swap = new double[arr.length];
+        int result = divide(arr, swap, 0, arr.length - 1);
+        System.out.println("Inversion Count: " + result);
+        System.out.println("Sorted Array: " + Arrays.toString(arr));
     }
 }

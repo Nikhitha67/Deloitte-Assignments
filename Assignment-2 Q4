@@ -1,1 +1,23 @@
-
+import java.util.*;
+public class UniqueDigitsFinder {
+ public static void main(String[] args) {
+    int N[] = {111, 222, 333, 4444, 666}; 
+          boolean[] seen = new boolean[10]; 
+          // Extract digits from each number
+          for (int num : N) {
+              while (num > 0) {
+                  int digit = num % 10; 
+                  seen[digit] = true; 
+                  num /= 10; 
+              }
+          }
+          // Collect unique digits in sorted order
+          List<Integer> uniqueDigits = new ArrayList<>();
+          for (int i = 0; i < 10; i++) {
+              if (seen[i]) {
+                  uniqueDigits.add(i);
+              }
+          }
+          System.out.println(uniqueDigits);
+      }
+  }

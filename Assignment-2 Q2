@@ -1,30 +1,36 @@
-public class SalesPrefixSum {
-    // Function to compute the prefix sum of sales
-    public static int[] computePrefixSum(int[] sales) {
-        int n = sales.length;
-        int[] prefixSum = new int[n];
-        // Initialize the first element of prefix sum
-        if (n > 0) {
-            prefixSum[0] = sales[0];
-        }
-        // Compute the prefix sums
-        for (int i = 1; i < n; i++) {
-            prefixSum[i] = prefixSum[i - 1] + sales[i];
-        }
-        return prefixSum;
+class PrefixSumCalculator {
+    // Array to store the original numbers
+    private int[] numbers;    
+    // Array to store the prefix sums
+    private int[] prefixSums;
+    // Constructor to initialize the calculator with an array of numbers
+    public PrefixSumCalculator(int[] numbers) {
+        this.numbers = numbers;
+        this.prefixSums = new int[numbers.length];
+        calculatePrefixSums(); // Call method to compute prefix sums
     }
-    // Main method to test the code
-    public static void main(String[] args) {
-        int[] sales = {10, 20, 15, 30, 25};
-        int[] prefixSum = computePrefixSum(sales);       
-        // Print the prefix sum array
-        System.out.print("PrefixSum[] = [");
-        for (int i = 0; i < prefixSum.length; i++) {
-            System.out.print(prefixSum[i]);
-            if (i < prefixSum.length - 1) {
-                System.out.print(", ");
-            }
+    // Method to calculate the prefix sums from the original array
+    private void calculatePrefixSums() {
+        // Initialize the first element of prefix sums
+        prefixSums[0] = numbers[0];
+        // Loop through the numbers to compute the prefix sums
+        for (int i = 1; i < numbers.length; i++) {
+            // Each prefix sum is the sum of the current number and the previous prefix sum
+            prefixSums[i] = prefixSums[i - 1] + numbers[i];
         }
-        System.out.println("]");
+    }
+    // Method to get the prefix sum up to a specific index
+    public int getPrefixSum(int index) {
+        // Return the prefix sum at the specified index
+        return prefixSums[index];
+    }
+    // Method to get the sum of elements between two indices (inclusive)
+    public int getRangeSum(int start, int end) {
+        // If start is 0, return the prefix sum at end
+        if (start == 0) {
+            return prefixSums[end];
+        }
+        // Otherwise, return the difference of prefix sums
+        return prefixSums[end] - prefixSums[start - 1];
     }
 }

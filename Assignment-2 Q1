@@ -1,58 +1,23 @@
-public class InversionCount {
-    // Function to count inversions using merge sort
-    public static int countInversions(int[] arr) {
-        return mergeSortAndCount(arr, 0, arr.length - 1);
-    }
-    // Helper function that performs merge sort and counts inversions
-    private static int mergeSortAndCount(int[] arr, int left, int right) {
-        int mid, invCount = 0;
-        if (right > left) {
-            mid = (right + left) / 2;
-            // Count inversions in the left half
-            invCount += mergeSortAndCount(arr, left, mid);
-            // Count inversions in the right half
-            invCount += mergeSortAndCount(arr, mid + 1, right);
-            // Count inversions while merging
-            invCount += mergeAndCount(arr, left, mid, right);
-        }
-        return invCount;
-    }
-    // Function to merge two halves and count inversions
-    private static int mergeAndCount(int[] arr, int left, int mid, int right) {
-        // Create temporary arrays for left and right halves
-        int[] leftArray = new int[mid - left + 1];
-        int[] rightArray = new int[right - mid];
-        // Copy data to temporary arrays
-        for (int i = 0; i < leftArray.length; i++)
-            leftArray[i] = arr[left + i];
-        for (int j = 0; j < rightArray.length; j++)
-            rightArray[j] = arr[mid + 1 + j];
-        int i = 0, j = 0, k = left;
-        int invCount = 0;
-        // Merge the two arrays and count inversions
-        while (i < leftArray.length && j < rightArray.length) {
-            if (leftArray[i] <= rightArray[j]) {
-                arr[k++] = leftArray[i++];
-            } else {
-                // Corrected inversion count calculation
-                arr[k++] = rightArray[j++];
-                invCount += (mid - left + 1 - i); // Corrected formula
-            }
-        }
-        // Copy remaining elements of leftArray, if any
-        while (i < leftArray.length) {
-            arr[k++] = leftArray[i++];
-        }
-        // Copy remaining elements of rightArray, if any
-        while (j < rightArray.length) {
-            arr[k++] = rightArray[j++];
-        }
-        return invCount;
-    }
-    // Main method to test the code
+class InversionCount {
     public static void main(String[] args) {
-        int[] P = {30, 45, 25, 60, 20}; // Input array
-        int inversionCount = countInversions(P); // Count inversions
-        System.out.println("The inversion count is " + inversionCount); // Output the result
+        // Initialize an array of integers
+        int arr[] = {30, 45, 25, 60, 20};
+        // Get the length of the array
+        int n = arr.length;        
+        // Initialize a variable to count inversions
+        int inversionCount = 0;
+        // Outer loop to iterate through each element in the array
+        for (int i = 0; i < n - 1; i++) {
+            // Inner loop to compare the current element with the subsequent elements
+            for (int j = i + 1; j < n; j++) {
+                // Check if the current element is greater than the compared element
+                if (arr[i] > arr[j]) {  
+                    // If true, increment the inversion count
+                    inversionCount++;
+                }
+            }
+        }        
+        // Print the total number of inversions found in the array
+        System.out.println("The inversion count is " + inversionCount);
     }
 }

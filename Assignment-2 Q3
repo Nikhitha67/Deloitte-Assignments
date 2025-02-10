@@ -1,30 +1,22 @@
-public class FuelPostfixSum {
-    // Function to compute the postfix sum of fuel consumption
-    public static int[] computePostfixSum(int[] fuel) {
-        int m = fuel.length;
-        int[] postfixSum = new int[m]; 
-        // Initialize the last element of postfix sum
-        if (m > 0) {
-            postfixSum[m - 1] = fuel[m - 1];
-        }
-        // Compute the postfix sums
-        for (int i = m - 2; i >= 0; i--) {
-            postfixSum[i] = postfixSum[i + 1] + fuel[i];
-        }
-        return postfixSum;
-    }
-    // Main method to test the code
+class PostfixSum {
     public static void main(String[] args) {
-        int[] fuel = {5, 10, 3, 7, 8};
-        int[] postfixSum = computePostfixSum(fuel);
-        // Print the postfix sum array
-        System.out.print("PostfixSum[] = [");
-        for (int i = 0; i < postfixSum.length; i++) {
-            System.out.print(postfixSum[i]);
-            if (i < postfixSum.length - 1) {
-                System.out.print(", ");
-            }
+        // Initialize an array of fuel values
+        int Fuel[] = {5, 10, 3, 7, 8};      
+        // Get the length of the Fuel array
+        int m = Fuel.length; 
+        // Create an array to store the postfix sums
+        int PostfixSum[] = new int[m]; 
+        // Initialize the last element of the PostfixSum array
+        PostfixSum[m - 1] = Fuel[m - 1];
+        // Loop to calculate the postfix sums from the end of the array to the beginning
+        for (int i = m - 2; i >= 0; i--) {
+            // Each postfix sum is the sum of the current fuel value and the next postfix sum
+            PostfixSum[i] = PostfixSum[i + 1] + Fuel[i]; 
+        }      
+        // Print the resulting PostfixSum array
+        System.out.print("PostfixSum[] = ");
+        for (int sum : PostfixSum) {
+            System.out.print(sum + " "); // Print each sum in the PostfixSum array
         }
-        System.out.println("]");
     }
 }

@@ -1,0 +1,34 @@
+public class wordcounter {
+    // Function to count the occurrences of each word in a paragraph without HashMap
+    public static String countWordOccurrences(String paragraph) {
+        String[] words = paragraph.split(" "); // Splitting by space
+        String result = "";    
+        for (int i = 0; i < words.length; i++) {
+            String word = words[i];
+            int count = 1;         
+            // Check if word has been counted already
+            boolean counted = false;
+            for (int j = 0; j < i; j++) {
+                if (words[j].equals(word)) {
+                    counted = true;
+                    break;
+                }
+            }          
+            if (!counted) {
+                // Count occurrences
+                for (int k = i + 1; k < words.length; k++) {
+                    if (words[k].equals(word)) {
+                        count++;
+                    }
+                }
+                result += word + ": " + count + "\n";
+            }
+        }
+        return result;
+    }
+    public static void main(String[] args) {
+        // Test case
+        String paragraph = "the cat and the hat";
+        System.out.println(countWordOccurrences(paragraph));
+    }
+}

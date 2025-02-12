@@ -1,0 +1,29 @@
+import java.util.HashMap;
+public class CoinChange {
+    public static int minCoins(int[] coins, int amount) {
+        // Create a HashMap to store the minimum coins for each amount
+        HashMap<Integer, Integer> dp = new HashMap<>();
+        dp.put(0, 0); // Base case: 0 coins are needed to make amount 0
+
+        // Initialize the HashMap for all amounts from 1 to the target amount
+        for (int i = 1; i <= amount; i++) {
+            dp.put(i, Integer.MAX_VALUE); // Initialize with a large value
+        }
+        // Fill the HashMap using standard for loops
+        for (int j = 0; j < coins.length; j++) {
+            int coin = coins[j];
+            for (int i = coin; i <= amount; i++) {
+                if (dp.get(i - coin) != Integer.MAX_VALUE) {
+                    dp.put(i, Math.min(dp.get(i), dp.get(i - coin) + 1));
+                }
+            }
+        }
+        // If dp[amount] is still Integer.MAX_VALUE, it means it's not possible to form that amount
+        return dp.get(amount) == Integer.MAX_VALUE ? -1 : dp.get(amount);
+    }
+    public static void main(String[] args) {
+        int[] coins = {1, 2, 5};
+        int amount = 11;
+        System.out.println("Minimum coins required: " + minCoins(coins, amount)); // Output: 3
+    }
+}

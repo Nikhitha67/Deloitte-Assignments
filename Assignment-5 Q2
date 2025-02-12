@@ -1,0 +1,63 @@
+import java.util.Random;
+public class KthClosestTemperature {
+    // Method to find the K-th closest temperature reading to the target
+    public static int findKthClosest(int[] readings, int target, int k) {
+        // Call the quickSelect method to find the k-th closest reading
+        return quickSelect(readings, 0, readings.length - 1, k - 1, target);
+    }
+    // Quickselect algorithm to find the k-th closest element
+    private static int quickSelect(int[] readings, int left, int right, int k, int target) {
+        // Continue partitioning until the left index exceeds the right index
+        while (left <= right) {
+            // Partition the array and get the pivot index
+            int pivotIndex = partition(readings, left, right, target);
+            // Check if the pivot index is the k-th index we are looking for
+            if (pivotIndex == k) {
+                return readings[pivotIndex]; // Return the k-th closest reading
+            } else if (pivotIndex < k) {
+                // If pivot index is less than k, search in the right partition
+                left = pivotIndex + 1;
+            } else {
+                // If pivot index is greater than k, search in the left partition
+                right = pivotIndex - 1;
+            }
+        }
+        return -1; // This should not happen if k is valid
+    }
+    // Partition method to rearrange the readings based on their distance from the target
+    private static int partition(int[] readings, int left, int right, int target) {
+        // Randomly select a pivot index
+        int pivotIndex = left + new Random().nextInt(right - left + 1);
+        // Calculate the pivot value (distance from the target)
+        int pivotValue = Math.abs(readings[pivotIndex] - target);
+        // Move the pivot to the end of the array
+        swap(readings, pivotIndex, right);
+        int storeIndex = left; // Store index for the next smaller element
+        // Rearrange the array based on the pivot value
+        for (int i = left; i < right; i++) {
+            // If the current reading's distance is less than the pivot value
+            if (Math.abs(readings[i] - target) < pivotValue) {
+                // Swap the current reading with the element at storeIndex
+                swap(readings, storeIndex, i);
+                storeIndex++; // Move the store index forward
+            }
+        }
+        // Move the pivot to its final place
+        swap(readings, storeIndex, right);
+        return storeIndex; // Return the final index of the pivot
+    }
+    // Utility method to swap two elements in the readings array
+    private static void swap(int[] readings, int i, int j) {
+        int temp = readings[i];
+        readings[i] = readings[j];
+        readings[j] = temp;
+    }
+    // Main method to test the functionality
+    public static void main(String[] args) {
+        int[] readings = {72, 75, 68, 80, 74}; // Sample temperature readings
+        int target = 73; // Target temperature
+        int k = 2; // We want the 2nd closest reading
+        // Output the K-th closest reading
+        System.out.println(findKthClosest(readings, target, k)); // Output: 74
+    }
+}

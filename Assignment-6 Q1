@@ -1,0 +1,23 @@
+import java.util.*; // Importing the utility package for using List, Map, and other collections
+public class GroupAnagrams { // Declaring the class GroupAnagrams
+    // Method to group anagrams from an array of strings
+    public static List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> anagramMap = new HashMap<>(); // HashMap to store sorted keys and their anagrams   
+        // Iterate through each word in the input array using a normal for loop
+        for (int i = 0; i < strs.length; i++) {
+            String word = strs[i]; // Access the word using the index
+            char[] charArray = word.toCharArray(); // Convert the word to a character array
+            Arrays.sort(charArray); // Sort the character array
+            String sortedKey = new String(charArray); // Create a key from the sorted characters   
+            // Add the word to the corresponding list in the HashMap
+            anagramMap.putIfAbsent(sortedKey, new ArrayList<>()); // Initialize a new list if the key is absent
+            anagramMap.get(sortedKey).add(word); // Add the original word to the list of anagrams
+        }   
+        return new ArrayList<>(anagramMap.values()); // Return the grouped anagrams as a list of lists
+    }
+    public static void main(String[] args) {
+        String[] strs = {"eat", "tea", "tan", "ate", "nat", "bat"}; // Sample input array
+        List<List<String>> result = groupAnagrams(strs); // Call the method and store the result
+        System.out.println(result); // Print the grouped anagrams
+    }
+}

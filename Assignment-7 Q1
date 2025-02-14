@@ -1,0 +1,67 @@
+import java.util.HashMap;
+
+public class PermutationInString {
+    public static boolean checkInclusion(String s1, String s2) {
+        int lenS1 = s1.length(); // Length of the first string
+        int lenS2 = s2.length(); // Length of the second string
+        
+        // If s1 is longer than s2, s2 cannot contain a permutation of s1
+        if (lenS1 > lenS2) {
+            return false;
+        }
+
+        // Create a frequency map for characters in s1
+        HashMap<Character, Integer> countS1 = new HashMap<>();
+        for (int i = 0; i < lenS1; i++) {
+            char c = s1.charAt(i);
+            countS1.put(c, countS1.getOrDefault(c, 0) + 1);
+        }
+
+        // Create a frequency map for the first window of s2
+        HashMap<Character, Integer> countWindow = new HashMap<>();
+        for (int i = 0; i < lenS1; i++) {
+            char c = s2.charAt(i);
+            countWindow.put(c, countWindow.getOrDefault(c, 0) + 1);
+        }
+
+        // Check if the first window matches the frequency map of s1
+        if (countS1.equals(countWindow)) {
+            return true;
+        }
+
+        // Slide the window over s2
+        for (int i = lenS1; i < lenS2; i++) {
+            char newChar = s2.charAt(i); // New character coming into the window
+            char oldChar = s2.charAt(i - lenS1); // Old character going out of the window
+
+            // Add the new character to the window's frequency map
+            countWindow.put(newChar, countWindow.getOrDefault(newChar, 0) + 1);
+            
+            // Remove the old character from the window's frequency map
+            countWindow.put(oldChar, countWindow.get(oldChar) - 1);
+            if (countWindow.get(oldChar) == 0) {
+                countWindow.remove(oldChar); // Remove the character if its count is zero
+            }
+
+            // Check if the current window matches the frequency map of s1
+            if (countS1.equals(countWindow)) {
+                return true;
+            }
+        }
+
+        // If no permutation is found, return false
+        return false;
+    }
+
+    public static void main(String[] args) {
+        // Declare the strings s1 and s2
+        String s1 = "ab";
+        String s2 = "eidbaooo";
+        // Check if s2 contains a permutation of s1
+        System.out.println(checkInclusion(s1, s2)); // Output: true
+        // Another test case
+        s1 = "ab";
+        s2 = "eidboaoo";
+        System.out.println(checkInclusion(s1, s2)); // Output: false
+    }
+}

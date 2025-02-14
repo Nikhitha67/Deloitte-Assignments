@@ -1,0 +1,51 @@
+import java.util.ArrayList; // Importing ArrayList to store the results
+import java.util.Deque; // Importing Deque for double-ended queue
+import java.util.LinkedList; // Importing LinkedList to implement Deque
+import java.util.List; // Importing List interface
+
+public class StockMarket {
+    // Method to find the minimum stock price over every rolling k-day window
+    public static List<Integer> minSlidingWindow(int[] prices, int k) {
+        List<Integer> result = new ArrayList<>(); // List to store the minimums for each window
+        
+        // Check for invalid input
+        if (prices == null || prices.length == 0 || k <= 0) {
+            return result; // Return empty list for invalid input
+        }
+
+        Deque<Integer> dq = new LinkedList<>(); // Deque to store indices of the elements
+
+        // Iterate through the prices array
+        for (int i = 0; i < prices.length; i++) {
+            // Remove indices that are out of the current window
+            if (!dq.isEmpty() && dq.peekFirst() < i - k + 1) {
+                dq.pollFirst(); // Remove the index from the front of the deque
+            }
+
+            // Remove elements from the deque that are greater than the current element
+            while (!dq.isEmpty() && prices[dq.peekLast()] > prices[i]) {
+                dq.pollLast(); // Remove indices from the back of the deque
+            }
+
+            dq.offerLast(i); // Add the current index to the deque
+
+            // Start adding results to the output list after the first k elements
+            if (i >= k - 1) {
+                result.add(prices[dq.peekFirst()]); // The front of the deque is the minimum for the current window
+            }
+        }
+
+        return result; // Return the list of minimums
+    }
+
+    public static void main(String[] args) {
+        // Example stock prices and window size
+        int[] prices = {120, 110, 115, 100, 105, 98, 102};
+        int k = 3; // Size of the sliding window
+        
+        // Get the result of minimum prices for each window
+        List<Integer> result = minSlidingWindow(prices, k);
+        // Print the result
+        System.out.println(result); // Output: [110, 100, 100, 98, 98]
+    }
+}
